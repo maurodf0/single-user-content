@@ -22,7 +22,7 @@
 } else { ?>
     <h1><?php _e('Per vedere il contenuto devi essere loggato, fai login per visualizzarlo', 'sucplugin')?></h1>
     <div class="button-container">
-        <a class="sucplugin-btn" href="<?php echo esc_url(wp_login_url()); ?>" class="button">Login</a>
+        <a class="sucplugin-btn" href="<?php echo esc_url(wp_login_url()); ?>" class="button"><?php _e('Login', 'sucplugin') ?></a>
     </div>
 <?php } ?>
 
