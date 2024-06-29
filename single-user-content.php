@@ -23,6 +23,12 @@ function sucplugin_add_cpt() {
     );
 }
 
+// Aggiunta dello stile
+function sucplugin_add_style() {
+    wp_enqueue_style('sucplugin-style', plugins_url('style.css', __FILE__));
+}
+add_action('wp_enqueue_scripts', 'sucplugin_add_style');
+
 // Sovrascrittura del template singolo per il CPT
 add_filter('single_template', 'sucplugin_single_template');
 function sucplugin_single_template($single) {
