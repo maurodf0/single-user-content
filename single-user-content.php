@@ -65,7 +65,7 @@ add_action('add_meta_boxes', 'sucplugin_add_metaboxes');
 function sucplugin_metabox_content() {
     global $post;
     // Use nonce for verification to secure data sending
-    wp_nonce_field(basename(__FILE__), 'email_nonce');
+    wp_nonce_field(basename(__FILE__), 'loginname_nonce');
     ?>
     <div style="margin-top:25px">
     <label for="user">Select User</label>
@@ -85,7 +85,7 @@ function sucplugin_metabox_content() {
 // Salvataggio dei dati della metabox
 function sucplugin_save_metabox_field($post_id) {
     // Verify nonce
-    if (!isset($_POST['email_nonce']) || !wp_verify_nonce($_POST['email_nonce'], basename(__FILE__))) {
+    if (!isset($_POST['loginname_nonce']) || !wp_verify_nonce($_POST['loginname_nonce'], basename(__FILE__))) {
         return $post_id;
     }
 
