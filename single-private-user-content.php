@@ -5,8 +5,11 @@
     $user = wp_get_current_user();
     $user_email = $user->user_email;
     echo $user_email;
-    
-    if($user_email === 'dev-email@wpengine.local'){?>
+
+    $email_post = get_post_meta($post->ID, 'email', true);
+    echo $email_post;
+
+    if($user_email === $email_post){?>
 
         <h1><?php the_title(); ?></h1>
         <?php the_content();
