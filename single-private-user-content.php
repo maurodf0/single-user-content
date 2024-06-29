@@ -14,7 +14,12 @@
         <h1><?php the_title(); ?></h1>
         <?php the_content();
 
-    }
+    } else { ?>
+        <h1>Questo non è il contenuto destinato a te, torna in Homepage o conttataci</h1>
+        <div class="button-container">
+            <a href="<?php esc_url(home_url()); ?>" class="button">Login</a>
+        </div>
+  <?php  }
 } else { ?>
     <h1>Per vedere il contenuto devi essere loggato, fai login per visualizzarlo</h1>
     <div class="button-container">
