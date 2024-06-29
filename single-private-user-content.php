@@ -1,6 +1,6 @@
 <?php get_header(); ?>
 
-<div class="main" style="max-width: 800px; margin: 0 auto;">
+<div class="sucplugin-main">
 <?php if(is_user_logged_in()){
     $user = wp_get_current_user();
 
@@ -20,7 +20,7 @@
         </div>
   <?php  }
 } else { ?>
-    <h1><?php _e('Per vedere il contenuto devi essere loggato, fai login per visualizzarlo', 'sucplugin')</h1>
+    <h1><?php _e('Per vedere il contenuto devi essere loggato, fai login per visualizzarlo', 'sucplugin')?></h1>
     <div class="button-container">
         <a class="sucplugin-btn" href="<?php echo esc_url(wp_login_url()); ?>" class="button">Login</a>
     </div>
