@@ -14,7 +14,7 @@
         <?php the_content();
 
     } else { ?>
-        <h1>Questo non è il contenuto destinato a te, torna in Homepage o conttataci</h1>
+        <h1><?php _e('Questo non è il contenuto destinato a te, torna in Homepage o conttataci', 'sucplugin')?></h1>
         <div class="button-container">
             <a class="sucplugin-btn" href="<?php echo esc_url(home_url()); ?>" class="button"><?php _e('Home', 'sucplugin')?></a>
         </div>
