@@ -4,6 +4,7 @@ Plugin Name: Single User Content
 Author: Mauro De Falco
 Version: 1.0
 Text Domain: sucplugin
+Domain Path: /languages
 */
 
 // Registrazione del Custom Post Type
