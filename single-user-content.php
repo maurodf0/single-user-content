@@ -3,7 +3,7 @@
 Plugin Name: Single User Content
 Author: Mauro De Falco
 Version: 1.0
-text-domain: sucplugin
+Text Domain: sucplugin
 */
 
 // Registrazione del Custom Post Type
@@ -65,10 +65,20 @@ add_action('add_meta_boxes', 'sucplugin_add_metaboxes');
 function sucplugin_metabox_content() {
     global $post;
     // Use nonce for verification to secure data sending
-    wp_nonce_field( basename( __FILE__ ), 'email_nonce' );
+    wp_nonce_field(basename(__FILE__), 'email_nonce');
     ?>
-    <label for="email">Email</label>
-    <input type="email" name="email" id="email" value="<?php echo esc_attr(get_post_meta($post->ID, 'email', true)); ?>">
+    <div style="margin-top:25px">
+    <label for="user">Select User</label>
+    <select name="user" id="user">
+        <?php 
+        $all_users = get_users(); 
+        foreach($all_users as $user) { ?>
+            <option value="<?php echo esc_attr($user->user_login); ?>" <?php selected($user->user_login, get_post_meta($post->ID, 'username', true)); ?>>
+                <?php echo esc_html($user->user_login); ?>
+            </option>
+        <?php } ?>
+    </select>
+    </div>
     <?php
 }
 
@@ -94,9 +104,9 @@ function sucplugin_save_metabox_field($post_id) {
     }
 
     // Salvataggio dell'email
-    if (isset($_POST['email'])) {
-        $email_inserted = sanitize_email($_POST['email']);
-        update_post_meta($post_id, 'email', $email_inserted);
+    if (isset($_POST['user'])) {
+        $email_inserted = sanitize_text_field($_POST['user']);
+        update_post_meta($post_id, 'username', $email_inserted);
 
         // Salvataggio nel database personalizzato
         global $wpdb;
@@ -106,12 +116,12 @@ function sucplugin_save_metabox_field($post_id) {
         $wpdb->replace(
             $table,
             array(
-                'col_post_id' => $post_id, // as we are having it by default with this function
-                'col_value'   => $email_inserted  // pass the email's string
+                'col_post_id' => $post_id, // ID del post
+                'col_value'   => $email_inserted  // Valore dell'email
             ),
             array(
-                '%d', // %d - integer
-                '%s', // %s - string
+                '%d', // %d - intero
+                '%s', // %s - stringa
             )
         );
     }
