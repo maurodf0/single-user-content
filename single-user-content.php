@@ -2,6 +2,8 @@
 /*
 Plugin Name: Single User Content
 Author: Mauro De Falco
+Author URI: https://maurodefalco.it
+Description: A Simple WordPress Plugin, for create a post assigned to a specific user into your site.
 Version: 1.0
 Text Domain: sucplugin
 Domain Path: /languages
