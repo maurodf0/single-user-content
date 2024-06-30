@@ -15,7 +15,6 @@ class SingleUserContent {
         add_action('add_meta_boxes', array($this, 'add_metaboxes'));
         add_action('save_post', array($this, 'save_metabox_field'));
         add_action('new_to_publish', array($this, 'save_metabox_field'));
-
         // Flush permalinks quando il plugin viene attivato
         register_activation_hook(__FILE__, array($this, 'flush_rewrite_rules_on_activation'));
     }
