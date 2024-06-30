@@ -7,9 +7,21 @@ Text Domain: sucplugin
 Domain Path: /languages
 */
 
+// creo una classe per evitare problemi di incompatibilità con altri plugin
+class SingleUserContent {
+    function __construct() {
+        add_action('init', array($this, 'add_cpt'));
+        add_action('wp_enqueue_scripts', array($this, 'add_style'));
+        add_filter('single_template', array($this, 'load_single_template'));
+        add_filter('single_template', array($this, 'load_single_template'));
+        add_action('add_meta_boxes', array($this, 'add_metaboxes'));
+        add_action('save_post', array($this, 'save_metabox_field'));
+        add_action('new_to_publish', array($this, 'save_metabox_field'));
+    }
+
+
 // Registrazione del Custom Post Type
-add_action('init', 'sucplugin_add_cpt');
-function sucplugin_add_cpt() {
+function add_cpt() {
     register_post_type('private-user-content',
         array(
             'labels' => array(
@@ -25,14 +37,12 @@ function sucplugin_add_cpt() {
 }
 
 // Aggiunta dello stile
-function sucplugin_add_style() {
+function add_style() {
     wp_enqueue_style('sucplugin-style', plugins_url('style.css', __FILE__));
 }
-add_action('wp_enqueue_scripts', 'sucplugin_add_style');
 
 // Sovrascrittura del template singolo per il CPT
-add_filter('single_template', 'sucplugin_single_template');
-function sucplugin_single_template($single) {
+function load_single_template($single) {
     global $post;
 
     // Verifica se il post è del tipo private-user-content
@@ -50,7 +60,7 @@ function sucplugin_single_template($single) {
 }
 
 // Aggiunta della metabox per Private User Content
-function sucplugin_add_metaboxes() {
+function add_metaboxes() {
     add_meta_box(
         'sucplugin-metabox', // id
         'Email for Private User Content', // titolo
@@ -60,7 +70,7 @@ function sucplugin_add_metaboxes() {
         'high' // priorità
     );
 }
-add_action('add_meta_boxes', 'sucplugin_add_metaboxes');
+
 
 // HTML per la metabox
 function sucplugin_metabox_content() {
@@ -127,6 +137,7 @@ function sucplugin_save_metabox_field($post_id) {
         );
     }
 }
-add_action('save_post', 'sucplugin_save_metabox_field');
-add_action('new_to_publish', 'sucplugin_save_metabox_field');
+}
+$singleUserContent = new SingleUserContent();
+
 ?>
