@@ -7,6 +7,7 @@ class SingleUserContent {
         add_action('add_meta_boxes', array($this, 'add_metaboxes'));
         add_action('save_post', array($this, 'save_metabox_field'));
         add_action('new_to_publish', array($this, 'save_metabox_field'));
+        register_activation_hook(__FILE__, array($this, 'flush_rewrite_rules_on_activation'));
     }
 
     // Registrazione del Custom Post Type
@@ -143,6 +144,13 @@ class SingleUserContent {
             );
         }
     }
+// Funzione per flushare i permalinks all'attivazione del plugin
+function flush_rewrite_rules_on_activation() {
+    // Registrazione del Custom Post Type
+    $this->add_cpt();
+    // Flush permalinks
+    flush_rewrite_rules();
+}
 }
 
 // Inizializzazione della classe
