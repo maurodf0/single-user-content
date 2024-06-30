@@ -1,4 +1,12 @@
 <?php
+/*
+Plugin Name: Single User Content
+Author: Mauro De Falco
+Version: 1.0
+Text Domain: sucplugin
+Domain Path: /languages
+*/
+
 class SingleUserContent {
     function __construct() {
         add_action('init', array($this, 'add_cpt'));
@@ -7,6 +15,8 @@ class SingleUserContent {
         add_action('add_meta_boxes', array($this, 'add_metaboxes'));
         add_action('save_post', array($this, 'save_metabox_field'));
         add_action('new_to_publish', array($this, 'save_metabox_field'));
+
+        // Flush permalinks quando il plugin viene attivato
         register_activation_hook(__FILE__, array($this, 'flush_rewrite_rules_on_activation'));
     }
 
@@ -71,7 +81,7 @@ class SingleUserContent {
     function add_metaboxes() {
         add_meta_box(
             'sucplugin-metabox', // id
-            __('Email for Private User Content', 'sucplugin'), // titolo
+            __('User for Private User Content', 'sucplugin'), // titolo
             array($this, 'metabox_content'), // callback
             'private-user-content', // post type
             'normal', // posizione
@@ -86,16 +96,16 @@ class SingleUserContent {
         wp_nonce_field(basename(__FILE__), 'loginname_nonce');
         ?>
         <div style="margin-top:25px">
-        <label for="user"><?php _e('Select User', 'sucplugin'); ?></label>
-        <select name="user" id="user">
-            <?php 
-            $all_users = get_users(); 
-            foreach($all_users as $user) { ?>
-                <option value="<?php echo esc_attr($user->user_login); ?>" <?php selected($user->user_login, get_post_meta($post->ID, 'username', true)); ?>>
-                    <?php echo esc_html($user->user_login); ?>
-                </option>
-            <?php } ?>
-        </select>
+            <label for="user"><?php _e('Select User', 'sucplugin'); ?></label>
+            <select name="user" id="user">
+                <?php 
+                $all_users = get_users(); 
+                foreach($all_users as $user) { ?>
+                    <option value="<?php echo esc_attr($user->user_login); ?>" <?php selected($user->user_login, get_post_meta($post->ID, 'username', true)); ?>>
+                        <?php echo esc_html($user->user_login); ?>
+                    </option>
+                <?php } ?>
+            </select>
         </div>
         <?php
     }
@@ -144,13 +154,14 @@ class SingleUserContent {
             );
         }
     }
-// Funzione per flushare i permalinks all'attivazione del plugin
-function flush_rewrite_rules_on_activation() {
-    // Registrazione del Custom Post Type
-    $this->add_cpt();
-    // Flush permalinks
-    flush_rewrite_rules();
-}
+
+    // Funzione per flushare i permalinks all'attivazione del plugin
+    function flush_rewrite_rules_on_activation() {
+        // Registrazione del Custom Post Type
+        $this->add_cpt();
+        // Flush permalinks
+        flush_rewrite_rules();
+    }
 }
 
 // Inizializzazione della classe
