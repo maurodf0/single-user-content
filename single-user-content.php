@@ -4,7 +4,7 @@ Plugin Name: Single User Content
 Author: Mauro De Falco
 Description: Create a private page for single user registered on your site. Only the designed user can see the post, fast, secure, free.
 Version: 1.0
-Text Domain: sucplugin
+Text Domain: single-user-content
 Domain Path: /languages
 */
 
@@ -27,23 +27,23 @@ class SingleUserContent {
         register_post_type('private-user-content',
             array(
                 'labels' => array(
-                    'name' => __('Single User Content', 'sucplugin'),
-                    'singular_name' => __('Single User Content', 'sucplugin'),
-                    'add_new' => __('Add New', 'sucplugin'),
-                    'add_new_item' => __('Add New Single User Content', 'sucplugin'),
-                    'edit_item' => __('Edit Single User Content', 'sucplugin'),
-                    'new_item' => __('New Single User Content', 'sucplugin'),
-                    'view_item' => __('View Single User Content', 'sucplugin'),
-                    'search_items' => __('Search Single User Content', 'sucplugin'),
-                    'not_found' => __('No Single User Content found', 'sucplugin'),
-                    'not_found_in_trash' => __('No Single User Content found in Trash', 'sucplugin'),
-                    'all_items' => __('All Single User Content', 'sucplugin'),
-                    'archives' => __('Single User Content Archives', 'sucplugin'),
-                    'insert_into_item' => __('Insert into Single User Content', 'sucplugin'),
-                    'uploaded_to_this_item' => __('Uploaded to this Single User Content', 'sucplugin'),
-                    'filter_items_list' => __('Filter Single User Content list', 'sucplugin'),
-                    'items_list_navigation' => __('Single User Content list navigation', 'sucplugin'),
-                    'items_list' => __('Single User Content list', 'sucplugin'),
+                    'name' => __('Single User Content', 'single-user-content'),
+                    'singular_name' => __('Single User Content', 'single-user-content'),
+                    'add_new' => __('Add New', 'single-user-content'),
+                    'add_new_item' => __('Add New Single User Content', 'single-user-content'),
+                    'edit_item' => __('Edit Single User Content', 'single-user-content'),
+                    'new_item' => __('New Single User Content', 'single-user-content'),
+                    'view_item' => __('View Single User Content', 'single-user-content'),
+                    'search_items' => __('Search Single User Content', 'single-user-content'),
+                    'not_found' => __('No Single User Content found', 'single-user-content'),
+                    'not_found_in_trash' => __('No Single User Content found in Trash', 'single-user-content'),
+                    'all_items' => __('All Single User Content', 'single-user-content'),
+                    'archives' => __('Single User Content Archives', 'single-user-content'),
+                    'insert_into_item' => __('Insert into Single User Content', 'single-user-content'),
+                    'uploaded_to_this_item' => __('Uploaded to this Single User Content', 'single-user-content'),
+                    'filter_items_list' => __('Filter Single User Content list', 'single-user-content'),
+                    'items_list_navigation' => __('Single User Content list navigation', 'single-user-content'),
+                    'items_list' => __('Single User Content list', 'single-user-content'),
                 ),
                 'public' => true,
                 'has_archive' => true,
@@ -58,7 +58,11 @@ class SingleUserContent {
 
     // Aggiunta dello stile
     function add_style() {
-        wp_enqueue_style('sucplugin-style', plugins_url('style.css', __FILE__));
+        //Load CSS only if is a private-user-content CPT
+        if (is_singular('private-user-content')) {
+        $version = '1.0.1'; // Aggiorna questa versione manualmente per miglior compatibiktò con WP
+    wp_enqueue_style('sucplugin-style', plugins_url('style.css', __FILE__), array(), $version);
+        }
     }
 
     // Sovrascrittura del template singolo per il CPT
@@ -82,8 +86,8 @@ class SingleUserContent {
     // Aggiunta della metabox per Private User Content
     function add_metaboxes() {
         add_meta_box(
-            'sucplugin-metabox', // id
-            __('User for Private User Content', 'sucplugin'), // titolo
+            'single-user-content-metabox', // id
+            __('User for Private User Content', 'single-user-content'), // titolo
             array($this, 'metabox_content'), // callback
             'private-user-content', // post type
             'normal', // posizione
@@ -98,7 +102,7 @@ class SingleUserContent {
         wp_nonce_field(basename(__FILE__), 'loginname_nonce');
         ?>
         <div style="margin-top:25px">
-            <label for="user"><?php _e('Select User', 'sucplugin'); ?></label>
+            <label for="user"><?php esc_html_e('Select User', 'single-user-content'); ?></label>
             <select name="user" id="user">
                 <?php 
                 $all_users = get_users(); 
@@ -138,22 +142,6 @@ class SingleUserContent {
             $user_login = sanitize_text_field($_POST['user']);
             update_post_meta($post_id, 'username', $user_login);
 
-            // Salvataggio nel database personalizzato
-            global $wpdb;
-            $table = $wpdb->base_prefix . 'project_bids_mitglied';
-
-            // Inserimento o aggiornamento del record
-            $wpdb->replace(
-                $table,
-                array(
-                    'col_post_id' => $post_id, // ID del post
-                    'col_value'   => $user_login  // Valore dell'username
-                ),
-                array(
-                    '%d', // %d - intero
-                    '%s', // %s - stringa
-                )
-            );
         }
     }
 

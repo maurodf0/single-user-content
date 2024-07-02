@@ -1,4 +1,4 @@
-.sucplugin-btn {
+.single-user-content-btn {
     padding: 8px 15px;
     background-color: #111;
     color: #fff;
@@ -7,11 +7,11 @@
     cursor: pointer;
 }
 
-.sucplugin-btn:hover {
+.single-user-content-btn:hover {
     background-color: #dedede;
 }
 
-.sucplugin-main {
+.single-user-content-main {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
