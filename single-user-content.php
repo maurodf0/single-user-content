@@ -61,7 +61,7 @@ class SingleUserContent {
         //Load CSS only if is a private-user-content CPT
         if (is_singular('private-user-content')) {
         $version = '1.0.1'; // Aggiorna questa versione manualmente per miglior compatibiktò con WP
-    wp_enqueue_style('sucplugin-style', plugins_url('style.css', __FILE__), array(), $version);
+    wp_enqueue_style('single-user-content-style', plugins_url('style.css', __FILE__), array(), $version);
         }
     }
 
