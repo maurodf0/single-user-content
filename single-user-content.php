@@ -2,10 +2,13 @@
 /*
 Plugin Name: Single User Content
 Author: Mauro De Falco
+Description: Create a private page for single user registered on your site. Only the designed user can see the post, fast, secure, free.
 Version: 1.0
 Text Domain: sucplugin
 Domain Path: /languages
 */
+
+if( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 class SingleUserContent {
     function __construct() {
