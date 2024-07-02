@@ -5,6 +5,8 @@ Donate link: https://www.paypal.com/donate/?hosted_button_id=NVQ76PJML4B3N
 Requires at least: 5.0
 Tested up to: 6.5.5
 Requires PHP: 7.4
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 A Simple WordPress Plugin, for create a post assigned to a specific user into your site.
 
